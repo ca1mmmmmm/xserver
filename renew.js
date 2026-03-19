@@ -52,7 +52,7 @@ async function sendTG(statusIcon, statusText, extra = '', imagePath = null) {
     const res = await fetch(url, {
       method: 'POST',
       headers,
-      body: imagePath ? Object.entries(body).reduce((fd, [k, v]) => { fd.append(k, v); return fd; }, new FormData()) : JSON.stringify(body)
+      body: imagePath ? (() => { const fd = new FormData(); fd.append('chat_id', TG_ID); fd.append('caption', text); fd.append('photo', fs.createReadStream(imagePath)); return fd; })() : JSON.stringify(body)
     });
     
     if (res.ok) console.log('✅ TG 通知已发送');
