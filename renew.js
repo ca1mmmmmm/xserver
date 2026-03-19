@@ -197,10 +197,10 @@ async function tryRenew(page, beforeMins) {
     await page.getByRole('link', { name: 'ゲーム管理' }).click();
     await page.waitForLoadState('load');
     await page.screenshot({ path: '3_game_manage.png' });
+    var totalMins = await parseRemainingMinutes(page);
     console.log('🚀 点击延期');
     await page.getByRole('link', { name: 'アップグレード・期限延長' }).click();
     await page.screenshot({ path: '4_renew_page.png' });
-    var totalMins = await parseRemainingMinutes(page);
     if (totalMins === null) {
       console.log('⚠️ 无法解析剩余时间，尝试直接续签');
       await tryRenew(page, null);
